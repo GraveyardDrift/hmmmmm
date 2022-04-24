@@ -59,69 +59,6 @@ public final class SensorOverlays {
     }
 
     /**
-     * Show the overlay.
-     *
-     * @param sensorId sensor id
-     * @param reason reason for showing
-     * @param client client performing operation
-     */
-    public void show(int sensorId, @BiometricOverlayConstants.ShowReason int reason,
-            @NonNull AcquisitionClient<?> client) {
-        show(null, sensorId, reason, client);
-    }
-
-    public void show(IBiometricsFingerprint daemon,
-            int sensorId, @BiometricOverlayConstants.ShowReason int reason,
-            @NonNull AcquisitionClient<?> client) {
-        if (mSidefpsController.isPresent()) {
-            try {
-                mSidefpsController.get().show(sensorId, reason);
-            } catch (RemoteException e) {
-                Slog.e(TAG, "Remote exception when showing the side-fps overlay", e);
-            }
-        }
-
-        if (mUdfpsOverlayController.isPresent()) {
-            final IUdfpsOverlayControllerCallback callback =
-                    new IUdfpsOverlayControllerCallback.Stub() {
-                        @Override
-                        public void onUserCanceled() {
-                            client.onUserCanceled();
-                        }
-                    };
-
-            if (daemon != null) {
-                android.hardware.biometrics.fingerprint.V2_3.IBiometricsFingerprint extension =
-                    android.hardware.biometrics.fingerprint.V2_3.IBiometricsFingerprint.castFrom(
-                    daemon);
-    }
-
-    /**
-     * Hide the overlay.
-     *
-     * @param sensorId sensor id
-     */
-    public void hide(int sensorId) {
-        hide(null, sensorId);
-    }
-
-    public void hide(IBiometricsFingerprint daemon, int sensorId) {
-        if (mSidefpsController.isPresent()) {
-            try {
-                mSidefpsController.get().hide(sensorId);
-            } catch (RemoteException e) {
-                Slog.e(TAG, "Remote exception when hiding the side-fps overlay", e);
-            }
-        }
-
-        if (mUdfpsOverlayController.isPresent()) {
-            if (daemon != null) {
-                android.hardware.biometrics.fingerprint.V2_3.IBiometricsFingerprint extension =
-                    android.hardware.biometrics.fingerprint.V2_3.IBiometricsFingerprint.castFrom(
-                    daemon);
-    }
-
-    /**
      * Use the udfps controller, if present.
      * @param consumer action
      */
