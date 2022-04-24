@@ -94,25 +94,6 @@ public final class SensorOverlays {
                 android.hardware.biometrics.fingerprint.V2_3.IBiometricsFingerprint extension =
                     android.hardware.biometrics.fingerprint.V2_3.IBiometricsFingerprint.castFrom(
                     daemon);
-                if (extension != null) {
-                    try {
-                        extension.onShowUdfpsOverlay();
-                    } catch (RemoteException e) {
-                        Slog.v(TAG, "showUdfpsOverlay | RemoteException: ", e);
-                    }
-                } else {
-                    Slog.v(TAG, "onShowUdfpsOverlay | failed to cast the HIDL to V2_3");
-                }
-            } else {
-                 Slog.v(TAG, "onShowUdfpsOverlay | daemon null");
-            }
-
-            try {
-                mUdfpsOverlayController.get().showUdfpsOverlay(sensorId, reason, callback);
-            } catch (RemoteException e) {
-                Slog.e(TAG, "Remote exception when showing the UDFPS overlay", e);
-            }
-        }
     }
 
     /**
@@ -138,25 +119,6 @@ public final class SensorOverlays {
                 android.hardware.biometrics.fingerprint.V2_3.IBiometricsFingerprint extension =
                     android.hardware.biometrics.fingerprint.V2_3.IBiometricsFingerprint.castFrom(
                     daemon);
-                if (extension != null) {
-                    try {
-                        extension.onHideUdfpsOverlay();
-                    } catch (RemoteException e) {
-                        Slog.v(TAG, "hideUdfpsOverlay | RemoteException: ", e);
-                    }
-                } else {
-                    Slog.v(TAG, "onHideUdfpsOverlay | failed to cast the HIDL to V2_3");
-                }
-            } else {
-                Slog.v(TAG, "onHideUdfpsOverlay | daemon null");
-            }
-
-            try {
-                mUdfpsOverlayController.get().hideUdfpsOverlay(sensorId);
-            } catch (RemoteException e) {
-                Slog.e(TAG, "Remote exception when hiding the UDFPS overlay", e);
-            }
-        }
     }
 
     /**
